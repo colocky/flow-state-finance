@@ -43,6 +43,45 @@ public class FlowStateFinanceApp {
         }
     }
 
+    public static void showLedgerScreen() {
+        boolean inLedger = true;
+
+        while (inLedger) {
+            System.out.println("\n=== Ledger ===");
+            System.out.println("A) All");
+            System.out.println("D) Deposits");
+            System.out.println("P) Payments");
+            System.out.println("R) Reports");
+            System.out.println("H) Home");
+            System.out.print("Choose an option: ");
+
+            String choice = scanner.nextLine().trim().toUpperCase();
+
+            ArrayList<Transaction> transactions =
+                    new ArrayList<>(TransactionFileManager.loadTransactions());
+
+            switch (choice) {
+                case "A":
+                    displayTransactions(transactions);
+                    break;
+                case "D":
+                    displayDeposits(transactions);
+                    break;
+                case "P":
+                    displayPayments(transactions);
+                    break;
+                case "R":
+                    showReportsScreen();
+                    break;
+                case "H":
+                    inLedger = false;
+                    break;
+                default:
+                    System.out.println("Invalid option. Try again.");
+            }
+        }
+    }
+
     public static void addDeposit() {
         System.out.println("\n--- Add Deposit ---");
 
@@ -96,7 +135,7 @@ public class FlowStateFinanceApp {
     }
 
     public static void displayTransactions(ArrayList<Transaction> transactions) {
-        if (transactions.size() == 0) {
+        if (transactions.isEmpty()) {
             System.out.println("No transactions found.");
             return;
         }
