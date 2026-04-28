@@ -7,7 +7,40 @@ public class FlowStateFinanceApp {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+    showHomeScreen();
+    }
 
+    public static void showHomeScreen() {
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\n=== Flow State Finance ===");
+            System.out.println("D) Add Deposit");
+            System.out.println("P) Make Payment");
+            System.out.println("L) Ledger");
+            System.out.println("X) Exit");
+            System.out.print("Choose an option: ");
+
+            String choice = scanner.nextLine().trim().toUpperCase();
+
+            switch (choice) {
+                case "D":
+                    addDeposit();
+                    break;
+                case "P":
+                    makePayment();
+                    break;
+                case "L":
+                    showLedgerScreen();
+                    break;
+                case "X":
+                    running = false;
+                    System.out.println("Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid option. Try again.");
+            }
+        }
     }
 
     public static void addDeposit() {
