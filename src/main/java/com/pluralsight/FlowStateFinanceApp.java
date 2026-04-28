@@ -72,4 +72,20 @@ public class FlowStateFinanceApp {
             System.out.println(transaction);
         }
     }
+
+    public static void displayDeposits(ArrayList<Transaction> transactions) {
+        for (Transaction transaction : transactions) {
+            if (transaction.isDeposit()) {
+                System.out.println(transaction);
+            }
+        }
+    }
+
+    public static void displayPayments(ArrayList<Transaction> transactions) {
+        for (Transaction transaction : transactions) {
+            if (transaction.isPayment()) {
+                System.out.println(transaction);
+            }
+        }
+    }
 }
