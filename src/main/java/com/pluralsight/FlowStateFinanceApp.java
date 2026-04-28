@@ -35,4 +35,41 @@ public class FlowStateFinanceApp {
         TransactionFileManager.saveTransaction(transaction);
         System.out.println("Deposit saved.");
     }
+
+    public static void makePayment() {
+        System.out.println("\n--- Make Payment ---");
+
+        System.out.print("Enter description: ");
+        String description = scanner.nextLine();
+
+        System.out.print("Enter vendor: ");
+        String vendor = scanner.nextLine();
+
+        System.out.print("Enter amount: ");
+        double amount = Double.parseDouble(scanner.nextLine());
+
+        amount = -Math.abs(amount);
+
+        Transaction transaction = new Transaction(
+                LocalDate.now(),
+                LocalTime.now().withNano(0),
+                description,
+                vendor,
+                amount
+        );
+
+        TransactionFileManager.saveTransaction(transaction);
+        System.out.println("Payment saved.");
+    }
+
+    public static void displayTransactions(ArrayList<Transaction> transactions) {
+        if (transactions.size() == 0) {
+            System.out.println("No transactions found.");
+            return;
+        }
+
+        for (Transaction transaction : transactions) {
+            System.out.println(transaction);
+        }
+    }
 }
