@@ -4,10 +4,10 @@ import java.time.*;
 import java.util.*;
 
 public class FlowStateFinanceApp {
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-    showHomeScreen();
+        showHomeScreen();
     }
 
     public static void showHomeScreen() {
@@ -157,6 +157,84 @@ public class FlowStateFinanceApp {
         for (Transaction transaction : transactions) {
             if (transaction.isPayment()) {
                 System.out.println(transaction);
+            }
+        }
+    }
+
+    public static void showReportsScreen() {
+        boolean inReports = true;
+
+        while (inReports) {
+            System.out.println("\n=== Reports ===");
+            System.out.println("1) Month To Date");
+            System.out.println("2) Previous Month");
+            System.out.println("3) Year To Date");
+            System.out.println("4) Previous Year");
+            System.out.println("5) Search by Vendor");
+            System.out.println("0) Back");
+            System.out.print("Choose an option: ");
+
+            String choice = scanner.nextLine();
+
+            ArrayList<Transaction> transactions =
+                    new ArrayList<>(TransactionFileManager.loadTransactions());
+
+            LocalDate today = LocalDate.now();
+
+            switch (choice) {
+                case "1":
+                    // Month To Date
+                    for (Transaction t : transactions) {
+                        if (t.getDate().getMonth() == today.getMonth()
+                                && t.getDate().getYear() == today.getYear()) {
+                            System.out.println(t);
+                        }
+                    }
+                    break;
+                case "2":
+                    // Previous Month
+                    LocalDate lastMonth = today.minusMonths(1);
+                    for (Transaction t : transactions) {
+                        if (t.getDate().getMonth() == lastMonth.getMonth()
+                                && t.getDate().getYear() == lastMonth.getYear()) {
+                            System.out.println(t);
+                        }
+                    }
+                    break;
+                case "3":
+                    // Year To Date
+                    for (Transaction t : transactions) {
+                        if (t.getDate().getYear() == today.getYear()) {
+                            System.out.println(t);
+                        }
+                    }
+                    break;
+                case "4":
+                    // Previous Year
+                    int lastYear = today.getYear() - 1;
+
+                    for (Transaction t : transactions) {
+                        if (t.getDate().getYear() == lastYear) {
+                            System.out.println(t);
+                        }
+                    }
+                    break;
+                case "5":
+                    // Search by Vendor
+                    System.out.print("Enter vendor name: ");
+                    String vendorSearch = scanner.nextLine().toLowerCase();
+
+                    for (Transaction t : transactions) {
+                        if (t.getVendor().toLowerCase().contains(vendorSearch)) {
+                            System.out.println(t);
+                        }
+                    }
+                    break;
+                case "0":
+                    inReports = false;
+                    break;
+                default:
+                    System.out.println("Invalid option.");
             }
         }
     }
