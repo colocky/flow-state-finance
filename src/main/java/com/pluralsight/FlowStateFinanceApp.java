@@ -171,6 +171,7 @@ public class FlowStateFinanceApp {
             System.out.println("3) Year To Date");
             System.out.println("4) Previous Year");
             System.out.println("5) Search by Vendor");
+            System.out.println("6) Custom Search");
             System.out.println("0) Back");
             System.out.print("Choose an option: ");
 
@@ -230,12 +231,82 @@ public class FlowStateFinanceApp {
                         }
                     }
                     break;
+                case "6":
+                    customSearch(transactions);
+                    break;
                 case "0":
                     inReports = false;
                     break;
                 default:
                     System.out.println("Invalid option.");
             }
+        }
+    }
+
+    public static void customSearch(ArrayList<Transaction> transactions) {
+        System.out.println("\n--- Custom Search ---");
+
+        System.out.print("Start Date (yyyy-MM-dd) or leave blank: ");
+        String startDateInput = scanner.nextLine();
+
+        System.out.print("End Date (yyyy-MM-dd) or leave blank: ");
+        String endDateInput = scanner.nextLine();
+
+        System.out.print("Description or leave blank: ");
+        String descriptionInput = scanner.nextLine().toLowerCase();
+
+        System.out.print("Vendor or leave blank: ");
+        String vendorInput = scanner.nextLine().toLowerCase();
+
+        System.out.print("Amount or leave blank: ");
+        String amountInput = scanner.nextLine();
+
+        LocalDate startDate = null;
+        LocalDate endDate = null;
+        Double amount = null;
+
+        if (!startDateInput.isBlank()) {
+            startDate = LocalDate.parse(startDateInput);
+        }
+
+        if (!endDateInput.isBlank()) {
+            endDate = LocalDate.parse(endDateInput);
+        }
+
+        if (!amountInput.isBlank()) {
+            amount = Double.parseDouble(amountInput);
+        }
+
+        boolean found = false;
+
+        for (Transaction t : transactions) {
+            boolean matches = true;
+
+            if (startDate != null && t.getDate().isBefore(startDate)) {
+                matches = false;
+            }
+            if (endDate != null && t.getDate().isAfter(endDate)) {
+                matches = false;
+            }
+            if (!descriptionInput.isBlank()
+                    && !t.getDescription().toLowerCase().contains(descriptionInput)) {
+                matches = false;
+            }
+            if (!vendorInput.isBlank()
+                    && !t.getVendor().toLowerCase().contains(vendorInput)) {
+                matches = false;
+            }
+            if (amount != null && t.getAmount() != amount) {
+                matches = false;
+            }
+            if (matches) {
+                System.out.println(t);
+                found = true;
+            }
+        }
+
+        if (!found) {
+            System.out.println("No matching transactions found.");
         }
     }
 }
