@@ -56,9 +56,13 @@ public class Transaction {
     }
 
     ////////// TO STRING FORMAT //////////
+    private static final String GREEN = "\u001B[32m";
+    private static final String RED = "\u001B[31m";
+    private static final String RESET = "\u001B[0m";
+
     public String toString() {
         String formattedTime = this.time.format(TIME_FORMAT);
-        return String.format(
+        String transactionText = String.format(
                 "| %s | %s | %-30s | %-25s | $%10.2f |",
                 date,
                 formattedTime,
@@ -66,5 +70,13 @@ public class Transaction {
                 vendor,
                 amount
         );
+
+        if (isDeposit()) {
+            return GREEN + transactionText + RESET;
+        } else if (isPayment()) {
+            return RED + transactionText + RESET;
+        }
+
+        return transactionText;
     }
 }
