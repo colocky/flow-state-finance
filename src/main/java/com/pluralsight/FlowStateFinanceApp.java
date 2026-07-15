@@ -13,12 +13,22 @@ public class FlowStateFinanceApp {
     public static void showHomeScreen() {
         boolean running = true;
 
+        System.out.println("""
+                  -------------------------------------------------
+                  +         Welcome to Flow State Finance         +
+                  -------------------------------------------------""");
+
+
+
         while (running) {
-            System.out.println("\n=== Flow State Finance ===");
-            System.out.println("D) Add Deposit");
-            System.out.println("P) Make Payment");
-            System.out.println("L) Ledger");
-            System.out.println("X) Exit");
+            System.out.println("""
+                    ╔-⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎽__⎽-⎻⎺⎺⎻-⎽_⎽-╗
+                    │           What would you like to do?          │
+                    │             D) Add deposit                    │
+                    │             P) Make Payment (Debit)           │
+                    │             L) Ledger                         │
+                    │             X) Exit                           │
+                    ╚-----------------------------------------------╝""");
             System.out.print("Choose an option: ");
 
             String choice = scanner.nextLine().trim().toUpperCase();
@@ -47,12 +57,18 @@ public class FlowStateFinanceApp {
         boolean inLedger = true;
 
         while (inLedger) {
-            System.out.println("\n=== Ledger ===");
-            System.out.println("A) All");
-            System.out.println("D) Deposits");
-            System.out.println("P) Payments");
-            System.out.println("R) Reports");
-            System.out.println("H) Home");
+            System.out.println("""
+                    
+                    =================================================
+                    |                   Ledger                      |
+                    ╔-⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎽__⎽-⎻⎺⎺⎻-⎽_⎽-╗
+                    │           What would you like to do?          │
+                    │             A) All                            │
+                    │             D) Deposits                       │
+                    │             P) Payments                       │
+                    │             R) Reports                        │
+                    │             H) Home                           │
+                    ╚-----------------------------------------------╝""");
             System.out.print("Choose an option: ");
 
             String choice = scanner.nextLine().trim().toUpperCase();
