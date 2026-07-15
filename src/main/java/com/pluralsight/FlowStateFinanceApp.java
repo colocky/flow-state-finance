@@ -22,6 +22,9 @@ public class FlowStateFinanceApp {
 
         while (running) {
             System.out.println("""
+                  
+                    =================================================
+                    |                   Home                        |
                     ╔-⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎽__⎽-⎻⎺⎺⎻-⎽_⎽-╗
                     │           What would you like to do?          │
                     │             D) Add deposit                    │
@@ -29,7 +32,8 @@ public class FlowStateFinanceApp {
                     │             L) Ledger                         │
                     │             X) Exit                           │
                     ╚-----------------------------------------------╝""");
-            System.out.print("Choose an option: ");
+            System.out.print("Choose an option: "
+            );
 
             String choice = scanner.nextLine().trim().toUpperCase();
 
@@ -121,7 +125,7 @@ public class FlowStateFinanceApp {
         );
 
         TransactionFileManager.saveTransaction(transaction);
-        System.out.println("Deposit saved.");
+        System.out.println("Deposit saved 💸");
     }
 
     public static void makePayment() {
@@ -147,10 +151,15 @@ public class FlowStateFinanceApp {
         );
 
         TransactionFileManager.saveTransaction(transaction);
-        System.out.println("Payment saved.");
+        System.out.println("Payment saved. 🪙");
     }
 
     public static void displayTransactions(ArrayList<Transaction> transactions) {
+        System.out.println("""
+            
+            ====================================================================================================
+                                                      ALL TRANSACTIONS
+            ====================================================================================================""");
         if (transactions.isEmpty()) {
             System.out.println("No transactions found.");
             return;
@@ -325,4 +334,6 @@ public class FlowStateFinanceApp {
             System.out.println("No matching transactions found.");
         }
     }
+
+
 }
