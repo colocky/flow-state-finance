@@ -353,7 +353,7 @@ public class FlowStateFinanceApp {
     }
 
     public static void header(String title) {
-        System.out.println("\n==================" + title + "==================");
+        System.out.println("\n================== " + title + " ==================");
     }
 
     public static void skipLine(){
