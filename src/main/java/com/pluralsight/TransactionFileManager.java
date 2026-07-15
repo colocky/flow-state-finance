@@ -52,27 +52,7 @@ public class TransactionFileManager {
         }
 
         ////////// SORTING //////////
-        for (int i = 0; i < transactions.size(); i++) {
-            for (int j = i + 1; j < transactions.size(); j++) {
-
-                Transaction t1 = transactions.get(i);
-                Transaction t2 = transactions.get(j);
-
-                boolean swap = false;
-
-                if (t2.getDate().isAfter(t1.getDate())) {
-                    swap = true;
-                } else if (t2.getDate().equals(t1.getDate())
-                        && t2.getTime().isAfter(t1.getTime())) {
-                    swap = true;
-                }
-
-                if (swap) {
-                    transactions.set(i, t2);
-                    transactions.set(j, t1);
-                }
-            }
-        }
+        transactions.sort(Comparator.comparing(Transaction::getDate));
 
         return transactions;
     }
