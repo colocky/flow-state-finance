@@ -6,6 +6,9 @@ import java.util.*;
 public class FlowStateFinanceApp {
     private static final Scanner scanner = new Scanner(System.in);
 
+    private static final String BLUE = "\u001B[34m";
+    private static final String RESET = "\u001B[0m";
+
     public static void main(String[] args) {
         showHomeScreen();
     }
@@ -13,7 +16,7 @@ public class FlowStateFinanceApp {
     public static void showHomeScreen() {
         boolean running = true;
 
-        System.out.println("""
+        printInterface("""
                   -------------------------------------------------
                   +         Welcome to Flow State Finance         +
                   -------------------------------------------------""");
@@ -21,7 +24,7 @@ public class FlowStateFinanceApp {
 
 
         while (running) {
-            System.out.println("""
+            printInterface("""
                   
                     =================================================
                     |                    Home                       |
@@ -32,7 +35,7 @@ public class FlowStateFinanceApp {
                     │             L) Ledger                         │
                     │             X) Exit                           │
                     ╚-----------------------------------------------╝""");
-            System.out.print("Choose an option: "
+            printInterface("Choose an option: "
             );
 
             String choice = scanner.nextLine().trim().toUpperCase();
@@ -49,19 +52,25 @@ public class FlowStateFinanceApp {
                     break;
                 case "X":
                     running = false;
-                    System.out.println("Goodbye!");
+                    printInterfacePrompt("Goodbye!");
                     break;
                 default:
-                    System.out.println("Invalid option. Try again.");
+                    printInterfacePrompt("Invalid option. Try again.");
             }
         }
     }
+    public static void printInterface(String text) {
+        System.out.println(BLUE + text + RESET);
+    }
 
+    public static void printInterfacePrompt(String text) {
+        System.out.print(BLUE + text + RESET);
+    }
     public static void showLedgerScreen() {
         boolean inLedger = true;
 
         while (inLedger) {
-            System.out.println("""
+            printInterface("""
                     
                     =================================================
                     |                   Ledger                      |
@@ -73,7 +82,7 @@ public class FlowStateFinanceApp {
                     │             R) Reports                        │
                     │             H) Home                           │
                     ╚-----------------------------------------------╝""");
-            System.out.print("Choose an option: ");
+            printInterfacePrompt("Choose an option: ");
 
             String choice = scanner.nextLine().trim().toUpperCase();
 
@@ -97,7 +106,7 @@ public class FlowStateFinanceApp {
                     inLedger = false;
                     break;
                 default:
-                    System.out.println("Invalid option. Try again.");
+                    printInterfacePrompt("Invalid option. Try again.");
             }
         }
     }
@@ -105,13 +114,13 @@ public class FlowStateFinanceApp {
     public static void addDeposit() {
         header("Make Deposit");
 
-        System.out.print("Enter description: ");
+        printInterfacePrompt("Enter description: ");
         String description = scanner.nextLine();
 
-        System.out.print("Enter vendor: ");
+        printInterfacePrompt("Enter vendor: ");
         String vendor = scanner.nextLine();
 
-        System.out.print("Enter amount: ");
+        printInterfacePrompt("Enter amount: ");
         double amount = Double.parseDouble(scanner.nextLine());
 
         amount = Math.abs(amount);
@@ -125,19 +134,19 @@ public class FlowStateFinanceApp {
         );
 
         TransactionFileManager.saveTransaction(transaction);
-        System.out.println("Deposit saved 💸");
+        printInterfacePrompt("Deposit saved 💸");
     }
 
     public static void makePayment() {
         header("Make Payment");
 
-        System.out.print("Enter description: ");
+        printInterfacePrompt("Enter description: ");
         String description = scanner.nextLine();
 
-        System.out.print("Enter vendor: ");
+        printInterfacePrompt("Enter vendor: ");
         String vendor = scanner.nextLine();
 
-        System.out.print("Enter amount: ");
+        printInterfacePrompt("Enter amount: ");
         double amount = Double.parseDouble(scanner.nextLine());
 
         amount = -Math.abs(amount);
@@ -151,17 +160,17 @@ public class FlowStateFinanceApp {
         );
 
         TransactionFileManager.saveTransaction(transaction);
-        System.out.println("Payment saved. 🪙");
+        printInterfacePrompt("Payment saved. 🪙");
     }
 
     public static void displayTransactions(ArrayList<Transaction> transactions) {
-        System.out.println("""
+        printInterface("""
             
             ====================================================================================================
                                                       ALL TRANSACTIONS
             ====================================================================================================""");
         if (transactions.isEmpty()) {
-            System.out.println("No transactions found.");
+            printInterfacePrompt("No transactions found.");
             return;
         }
 
@@ -171,7 +180,7 @@ public class FlowStateFinanceApp {
     }
 
     public static void displayDeposits(ArrayList<Transaction> transactions) {
-        System.out.println("""
+        printInterface("""
             
             ====================================================================================================
                                                       ALL DEPOSITS
@@ -184,7 +193,7 @@ public class FlowStateFinanceApp {
     }
 
     public static void displayPayments(ArrayList<Transaction> transactions) {
-        System.out.println("""
+        printInterface("""
             
             ====================================================================================================
                                                       ALL PAYMENTS
@@ -201,7 +210,7 @@ public class FlowStateFinanceApp {
 
         while (inReports) {
             header("Reports");
-            System.out.println("""
+            printInterfacePrompt("""
                     1) Month To Date
                     2) Previous Month
                     3) Year To Date
@@ -210,7 +219,7 @@ public class FlowStateFinanceApp {
                     6) Custom Search
                     0) Back""");
 
-            System.out.print("Choose an option: ");
+            printInterfacePrompt("Choose an option: ");
 
             String choice = scanner.nextLine();
 
@@ -280,7 +289,7 @@ public class FlowStateFinanceApp {
                     inReports = false;
                     break;
                 default:
-                    System.out.println("Invalid option.");
+                    printInterfacePrompt("Invalid option.");
             }
         }
     }
@@ -288,19 +297,19 @@ public class FlowStateFinanceApp {
     public static void customSearch(ArrayList<Transaction> transactions) {
         header("Custom Search");
 
-        System.out.print("Start Date (yyyy-MM-dd) or leave blank: ");
+        printInterfacePrompt("Start Date (yyyy-MM-dd) or leave blank: ");
         String startDateInput = scanner.nextLine();
 
-        System.out.print("End Date (yyyy-MM-dd) or leave blank: ");
+        printInterfacePrompt("End Date (yyyy-MM-dd) or leave blank: ");
         String endDateInput = scanner.nextLine();
 
-        System.out.print("Description or leave blank: ");
+        printInterfacePrompt("Description or leave blank: ");
         String descriptionInput = scanner.nextLine().toLowerCase();
 
-        System.out.print("Vendor or leave blank: ");
+        printInterfacePrompt("Vendor or leave blank: ");
         String vendorInput = scanner.nextLine().toLowerCase();
 
-        System.out.print("Amount or leave blank: ");
+        printInterfacePrompt("Amount or leave blank: ");
         String amountInput = scanner.nextLine();
 
         LocalDate startDate = null;
@@ -348,12 +357,12 @@ public class FlowStateFinanceApp {
         }
 
         if (!found) {
-            System.out.println("No matching transactions found.");
+            printInterfacePrompt("No matching transactions found.");
         }
     }
 
     public static void header(String title) {
-        System.out.println("\n================== " + title + " ==================");
+        printInterface("\n================== " + title + " ==================");
     }
 
     public static void skipLine(){
