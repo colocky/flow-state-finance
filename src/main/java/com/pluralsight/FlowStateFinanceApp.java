@@ -24,7 +24,7 @@ public class FlowStateFinanceApp {
             System.out.println("""
                   
                     =================================================
-                    |                   Home                        |
+                    |                    Home                       |
                     ╔-⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎽__⎽-⎻⎺⎺⎻-⎽_⎽-╗
                     │           What would you like to do?          │
                     │             D) Add deposit                    │
@@ -103,7 +103,7 @@ public class FlowStateFinanceApp {
     }
 
     public static void addDeposit() {
-        System.out.println("\n--- Add Deposit ---");
+        header("Make Deposit");
 
         System.out.print("Enter description: ");
         String description = scanner.nextLine();
@@ -129,7 +129,7 @@ public class FlowStateFinanceApp {
     }
 
     public static void makePayment() {
-        System.out.println("\n--- Make Payment ---");
+        header("Make Payment");
 
         System.out.print("Enter description: ");
         String description = scanner.nextLine();
@@ -171,6 +171,11 @@ public class FlowStateFinanceApp {
     }
 
     public static void displayDeposits(ArrayList<Transaction> transactions) {
+        System.out.println("""
+            
+            ====================================================================================================
+                                                      ALL DEPOSITS
+            ====================================================================================================""");
         for (Transaction transaction : transactions) {
             if (transaction.isDeposit()) {
                 System.out.println(transaction);
@@ -179,6 +184,11 @@ public class FlowStateFinanceApp {
     }
 
     public static void displayPayments(ArrayList<Transaction> transactions) {
+        System.out.println("""
+            
+            ====================================================================================================
+                                                      ALL PAYMENTS
+            ====================================================================================================""");
         for (Transaction transaction : transactions) {
             if (transaction.isPayment()) {
                 System.out.println(transaction);
@@ -190,14 +200,16 @@ public class FlowStateFinanceApp {
         boolean inReports = true;
 
         while (inReports) {
-            System.out.println("\n=== Reports ===");
-            System.out.println("1) Month To Date");
-            System.out.println("2) Previous Month");
-            System.out.println("3) Year To Date");
-            System.out.println("4) Previous Year");
-            System.out.println("5) Search by Vendor");
-            System.out.println("6) Custom Search");
-            System.out.println("0) Back");
+            header("Reports");
+            System.out.println("""
+                    1) Month To Date
+                    2) Previous Month
+                    3) Year To Date
+                    4) Previous Year
+                    5) Search by Vendor
+                    6) Custom Search
+                    0) Back""");
+
             System.out.print("Choose an option: ");
 
             String choice = scanner.nextLine();
@@ -210,6 +222,7 @@ public class FlowStateFinanceApp {
             switch (choice) {
                 case "1":
                     // Month To Date
+                    skipLine();
                     for (Transaction t : transactions) {
                         if (t.getDate().getMonth() == today.getMonth()
                                 && t.getDate().getYear() == today.getYear()) {
@@ -219,6 +232,7 @@ public class FlowStateFinanceApp {
                     break;
                 case "2":
                     // Previous Month
+                    skipLine();
                     LocalDate lastMonth = today.minusMonths(1);
                     for (Transaction t : transactions) {
                         if (t.getDate().getMonth() == lastMonth.getMonth()
@@ -229,6 +243,7 @@ public class FlowStateFinanceApp {
                     break;
                 case "3":
                     // Year To Date
+                    skipLine();
                     for (Transaction t : transactions) {
                         if (t.getDate().getYear() == today.getYear()) {
                             System.out.println(t);
@@ -237,6 +252,7 @@ public class FlowStateFinanceApp {
                     break;
                 case "4":
                     // Previous Year
+                    skipLine();
                     int lastYear = today.getYear() - 1;
 
                     for (Transaction t : transactions) {
@@ -247,6 +263,7 @@ public class FlowStateFinanceApp {
                     break;
                 case "5":
                     // Search by Vendor
+                    skipLine();
                     System.out.print("Enter vendor name: ");
                     String vendorSearch = scanner.nextLine().toLowerCase();
 
@@ -269,7 +286,7 @@ public class FlowStateFinanceApp {
     }
 
     public static void customSearch(ArrayList<Transaction> transactions) {
-        System.out.println("\n--- Custom Search ---");
+        header("Custom Search");
 
         System.out.print("Start Date (yyyy-MM-dd) or leave blank: ");
         String startDateInput = scanner.nextLine();
@@ -333,6 +350,14 @@ public class FlowStateFinanceApp {
         if (!found) {
             System.out.println("No matching transactions found.");
         }
+    }
+
+    public static void header(String title) {
+        System.out.println("\n==================" + title + "==================");
+    }
+
+    public static void skipLine(){
+        System.out.println();
     }
 
 
