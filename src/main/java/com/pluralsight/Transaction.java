@@ -2,6 +2,7 @@ package com.pluralsight;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Transaction {
     private final LocalDate date;
@@ -9,6 +10,7 @@ public class Transaction {
     private final String description;
     private final String vendor;
     private final double amount;
+    private final static DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     ////////// CONSTRUCTOR //////////
     public Transaction(LocalDate date, LocalTime time, String description, String vendor, double amount) {
@@ -54,14 +56,27 @@ public class Transaction {
     }
 
     ////////// TO STRING FORMAT //////////
+    private static final String GREEN = "\u001B[32m";
+    private static final String RED = "\u001B[31m";
+    private static final String RESET = "\u001B[0m";
+
     public String toString() {
-        return String.format(
-                "%s | %s | %s | %s | $%.2f",
+        String formattedTime = this.time.format(TIME_FORMAT);
+        String transactionText = String.format(
+                "| %s | %s | %-30s | %-25s | $%10.2f |",
                 date,
-                time,
+                formattedTime,
                 description,
                 vendor,
                 amount
         );
+
+        if (isDeposit()) {
+            return GREEN + transactionText + RESET;
+        } else if (isPayment()) {
+            return RED + transactionText + RESET;
+        }
+
+        return transactionText;
     }
 }
