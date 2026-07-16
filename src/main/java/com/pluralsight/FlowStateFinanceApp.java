@@ -122,6 +122,32 @@ public class FlowStateFinanceApp {
         }
     }
 
+    static double promptDouble(String prompt) {
+        do {
+            printInterfacePrompt(prompt);
+            String line = scanner.nextLine();
+            try {
+                return Double.parseDouble(line);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number. Please try again.");
+            }
+        } while (true);
+    }
+    static Double promptOptionalDouble(String prompt) {
+        do {
+            printInterfacePrompt(prompt);
+            String line = scanner.nextLine();
+            if (line.isBlank()) {
+                return null;
+            }
+            try {
+                return Double.parseDouble(line);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number. Please try again.");
+            }
+        } while (true);
+    }
+
     public static void addDeposit() {
         header("Make Deposit");
 
@@ -131,8 +157,7 @@ public class FlowStateFinanceApp {
         printInterfacePrompt("Enter vendor: ");
         String vendor = scanner.nextLine();
 
-        printInterfacePrompt("Enter amount: ");
-        double amount = Double.parseDouble(scanner.nextLine());
+        double amount = promptDouble("Enter amount: ");
 
         amount = Math.abs(amount);
 
@@ -157,8 +182,7 @@ public class FlowStateFinanceApp {
         printInterfacePrompt("Enter vendor: ");
         String vendor = scanner.nextLine();
 
-        printInterfacePrompt("Enter amount: ");
-        double amount = Double.parseDouble(scanner.nextLine());
+        double amount = promptDouble("Enter amount: ");
 
         amount = -Math.abs(amount);
 
@@ -317,12 +341,10 @@ public class FlowStateFinanceApp {
         printInterfacePrompt("Vendor or leave blank: ");
         String vendorInput = scanner.nextLine().toLowerCase();
 
-        printInterfacePrompt("Amount or leave blank: ");
-        String amountInput = scanner.nextLine();
+        Double amount = promptOptionalDouble("Amount or leave blank: ");
 
         LocalDate startDate = null;
         LocalDate endDate = null;
-        Double amount = null;
 
         if (!startDateInput.isBlank()) {
             startDate = LocalDate.parse(startDateInput);
@@ -330,10 +352,6 @@ public class FlowStateFinanceApp {
 
         if (!endDateInput.isBlank()) {
             endDate = LocalDate.parse(endDateInput);
-        }
-
-        if (!amountInput.isBlank()) {
-            amount = Double.parseDouble(amountInput);
         }
 
         boolean found = false;
