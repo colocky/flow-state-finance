@@ -49,8 +49,7 @@ public class FlowStateFinanceApp {
                     │             L) Ledger                         │
                     │             X) Exit                           │
                     ╚-----------------------------------------------╝""", balance));
-            printInterface("Choose an option: "
-            );
+            printInterfacePrompt("Choose an option: ");
 
             String choice = scanner.nextLine().trim().toUpperCase();
 
