@@ -2,6 +2,7 @@ package com.pluralsight;
 
 import java.io.*;
 import java.time.*;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class FlowStateFinanceApp {
@@ -122,6 +123,46 @@ public class FlowStateFinanceApp {
         }
     }
 
+    static double promptDouble(String prompt) {
+        do {
+            printInterfacePrompt(prompt);
+            String line = scanner.nextLine();
+            try {
+                return Double.parseDouble(line);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number. Please try again.");
+            }
+        } while (true);
+    }
+    static Double promptOptionalDouble(String prompt) {
+        do {
+            printInterfacePrompt(prompt);
+            String line = scanner.nextLine();
+            if (line.isBlank()) {
+                return null;
+            }
+            try {
+                return Double.parseDouble(line);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number. Please try again.");
+            }
+        } while (true);
+    }
+    static LocalDate promptOptionalDate(String prompt) {
+        do {
+            printInterfacePrompt(prompt);
+            String line = scanner.nextLine();
+            if (line.isBlank()) {
+                return null;
+            }
+            try {
+                return LocalDate.parse(line);
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date. Please try again.");
+            }
+        } while (true);
+    }
+
     public static void addDeposit() {
         header("Make Deposit");
 
@@ -131,8 +172,7 @@ public class FlowStateFinanceApp {
         printInterfacePrompt("Enter vendor: ");
         String vendor = scanner.nextLine();
 
-        printInterfacePrompt("Enter amount: ");
-        double amount = Double.parseDouble(scanner.nextLine());
+        double amount = promptDouble("Enter amount: ");
 
         amount = Math.abs(amount);
 
@@ -157,8 +197,7 @@ public class FlowStateFinanceApp {
         printInterfacePrompt("Enter vendor: ");
         String vendor = scanner.nextLine();
 
-        printInterfacePrompt("Enter amount: ");
-        double amount = Double.parseDouble(scanner.nextLine());
+        double amount = promptDouble("Enter amount: ");
 
         amount = -Math.abs(amount);
 
@@ -305,11 +344,9 @@ public class FlowStateFinanceApp {
     public static void customSearch(ArrayList<Transaction> transactions) {
         header("Custom Search");
 
-        printInterfacePrompt("Start Date (yyyy-MM-dd) or leave blank: ");
-        String startDateInput = scanner.nextLine();
+        LocalDate startDate = promptOptionalDate("Start Date (yyyy-MM-dd) or leave blank: ");
 
-        printInterfacePrompt("End Date (yyyy-MM-dd) or leave blank: ");
-        String endDateInput = scanner.nextLine();
+        LocalDate endDate = promptOptionalDate("End Date (yyyy-MM-dd) or leave blank: ");
 
         printInterfacePrompt("Description or leave blank: ");
         String descriptionInput = scanner.nextLine().toLowerCase();
@@ -317,24 +354,7 @@ public class FlowStateFinanceApp {
         printInterfacePrompt("Vendor or leave blank: ");
         String vendorInput = scanner.nextLine().toLowerCase();
 
-        printInterfacePrompt("Amount or leave blank: ");
-        String amountInput = scanner.nextLine();
-
-        LocalDate startDate = null;
-        LocalDate endDate = null;
-        Double amount = null;
-
-        if (!startDateInput.isBlank()) {
-            startDate = LocalDate.parse(startDateInput);
-        }
-
-        if (!endDateInput.isBlank()) {
-            endDate = LocalDate.parse(endDateInput);
-        }
-
-        if (!amountInput.isBlank()) {
-            amount = Double.parseDouble(amountInput);
-        }
+        Double amount = promptOptionalDouble("Amount or leave blank: ");
 
         boolean found = false;
 
