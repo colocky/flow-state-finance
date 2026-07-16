@@ -185,7 +185,7 @@ public class FlowStateFinanceApp {
         );
 
         addTransaction(transaction);
-        printInterfacePrompt("Deposit saved 💸");
+        printInterface("Deposit saved 💸");
     }
 
     public static void makePayment() {
@@ -210,7 +210,7 @@ public class FlowStateFinanceApp {
         );
 
         addTransaction(transaction);
-        printInterfacePrompt("Payment saved. 🪙");
+        printInterface("Payment saved. 🪙");
     }
 
     public static void displayTransactions(ArrayList<Transaction> transactions) {
@@ -220,7 +220,7 @@ public class FlowStateFinanceApp {
                                                       ALL TRANSACTIONS
             ====================================================================================================""");
         if (transactions.isEmpty()) {
-            printInterfacePrompt("No transactions found.");
+            printInterface("No transactions found.");
             return;
         }
 
@@ -260,7 +260,7 @@ public class FlowStateFinanceApp {
 
         while (inReports) {
             header("Reports");
-            printInterfacePrompt("""
+            printInterface("""
                     1) Month To Date
                     2) Previous Month
                     3) Year To Date
@@ -336,7 +336,7 @@ public class FlowStateFinanceApp {
                     inReports = false;
                     break;
                 default:
-                    printInterfacePrompt("Invalid option.");
+                    printInterface("Invalid option.");
             }
         }
     }
@@ -385,7 +385,7 @@ public class FlowStateFinanceApp {
         }
 
         if (!found) {
-            printInterfacePrompt("No matching transactions found.");
+            printInterface("No matching transactions found.");
         }
     }
 
