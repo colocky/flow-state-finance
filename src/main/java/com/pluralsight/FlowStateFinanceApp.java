@@ -2,6 +2,7 @@ package com.pluralsight;
 
 import java.io.*;
 import java.time.*;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class FlowStateFinanceApp {
@@ -144,6 +145,20 @@ public class FlowStateFinanceApp {
                 return Double.parseDouble(line);
             } catch (NumberFormatException e) {
                 System.out.println("Invalid number. Please try again.");
+            }
+        } while (true);
+    }
+    static LocalDate promptOptionalDate(String prompt) {
+        do {
+            printInterfacePrompt(prompt);
+            String line = scanner.nextLine();
+            if (line.isBlank()) {
+                return null;
+            }
+            try {
+                return LocalDate.parse(line);
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date. Please try again.");
             }
         } while (true);
     }
@@ -329,11 +344,9 @@ public class FlowStateFinanceApp {
     public static void customSearch(ArrayList<Transaction> transactions) {
         header("Custom Search");
 
-        printInterfacePrompt("Start Date (yyyy-MM-dd) or leave blank: ");
-        String startDateInput = scanner.nextLine();
+        LocalDate startDate = promptOptionalDate("Start Date (yyyy-MM-dd) or leave blank: ");
 
-        printInterfacePrompt("End Date (yyyy-MM-dd) or leave blank: ");
-        String endDateInput = scanner.nextLine();
+        LocalDate endDate = promptOptionalDate("End Date (yyyy-MM-dd) or leave blank: ");
 
         printInterfacePrompt("Description or leave blank: ");
         String descriptionInput = scanner.nextLine().toLowerCase();
@@ -342,17 +355,6 @@ public class FlowStateFinanceApp {
         String vendorInput = scanner.nextLine().toLowerCase();
 
         Double amount = promptOptionalDouble("Amount or leave blank: ");
-
-        LocalDate startDate = null;
-        LocalDate endDate = null;
-
-        if (!startDateInput.isBlank()) {
-            startDate = LocalDate.parse(startDateInput);
-        }
-
-        if (!endDateInput.isBlank()) {
-            endDate = LocalDate.parse(endDateInput);
-        }
 
         boolean found = false;
 
