@@ -7,12 +7,21 @@ import java.util.*;
 public class FlowStateFinanceApp {
     private static final Scanner scanner = new Scanner(System.in);
     private static ArrayList<Transaction> transactions = new ArrayList<>();
+    private static double balance = 0;
+
+    /** Always use this to add a new transaction to our data store. */
+    private static void addTransaction(Transaction transaction) {
+        TransactionFileManager.saveTransaction(transaction);
+        transactions.add(transaction);
+        balance += transaction.getAmount();
+    }
 
     private static final String BLUE = "\u001B[34m";
     private static final String RESET = "\u001B[0m";
 
     public static void main(String[] args) {
         transactions = new ArrayList<>(TransactionFileManager.loadTransactions());
+        balance = transactions.stream().mapToDouble(Transaction::getAmount).sum();
         showHomeScreen();
     }
 
@@ -27,17 +36,19 @@ public class FlowStateFinanceApp {
 
 
         while (running) {
-            printInterface("""
+            printInterface(String.format("""
                   
                     =================================================
                     |                    Home                       |
+                    |===============================================|
+                    |           Balance: $% 11.2f               |
                     ╔-⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎽__⎽-⎻⎺⎺⎻-⎽_⎽-╗
                     │           What would you like to do?          │
                     │             D) Add deposit                    │
                     │             P) Make Payment (Debit)           │
                     │             L) Ledger                         │
                     │             X) Exit                           │
-                    ╚-----------------------------------------------╝""");
+                    ╚-----------------------------------------------╝""", balance));
             printInterface("Choose an option: "
             );
 
@@ -73,10 +84,11 @@ public class FlowStateFinanceApp {
         boolean inLedger = true;
 
         while (inLedger) {
-            printInterface("""
+            printInterface(String.format("""
                     
                     =================================================
                     |                   Ledger                      |
+                    |           Balance: $% 11.2f               |
                     ╔-⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎽__⎽-⎻⎺⎺⎻-⎽__⎽--⎽__⎽-⎻⎺⎺⎻-⎽_⎽-╗
                     │           What would you like to do?          │
                     │             A) All                            │
@@ -84,7 +96,7 @@ public class FlowStateFinanceApp {
                     │             P) Payments                       │
                     │             R) Reports                        │
                     │             H) Home                           │
-                    ╚-----------------------------------------------╝""");
+                    ╚-----------------------------------------------╝""", balance));
             printInterfacePrompt("Choose an option: ");
 
             String choice = scanner.nextLine().trim().toUpperCase();
@@ -133,8 +145,7 @@ public class FlowStateFinanceApp {
                 amount
         );
 
-        TransactionFileManager.saveTransaction(transaction);
-        transactions.add(transaction);
+        addTransaction(transaction);
         printInterfacePrompt("Deposit saved 💸");
     }
 
@@ -160,8 +171,7 @@ public class FlowStateFinanceApp {
                 amount
         );
 
-        TransactionFileManager.saveTransaction(transaction);
-        transactions.add(transaction);
+        addTransaction(transaction);
         printInterfacePrompt("Payment saved. 🪙");
     }
 
