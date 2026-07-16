@@ -1,15 +1,18 @@
 package com.pluralsight;
 
+import java.io.*;
 import java.time.*;
 import java.util.*;
 
 public class FlowStateFinanceApp {
     private static final Scanner scanner = new Scanner(System.in);
+    private static ArrayList<Transaction> transactions = new ArrayList<>();
 
     private static final String BLUE = "\u001B[34m";
     private static final String RESET = "\u001B[0m";
 
     public static void main(String[] args) {
+        transactions = new ArrayList<>(TransactionFileManager.loadTransactions());
         showHomeScreen();
     }
 
@@ -86,9 +89,6 @@ public class FlowStateFinanceApp {
 
             String choice = scanner.nextLine().trim().toUpperCase();
 
-            ArrayList<Transaction> transactions =
-                    new ArrayList<>(TransactionFileManager.loadTransactions());
-
             switch (choice) {
                 case "A":
                     displayTransactions(transactions);
@@ -134,6 +134,7 @@ public class FlowStateFinanceApp {
         );
 
         TransactionFileManager.saveTransaction(transaction);
+        transactions.add(transaction);
         printInterfacePrompt("Deposit saved 💸");
     }
 
@@ -160,6 +161,7 @@ public class FlowStateFinanceApp {
         );
 
         TransactionFileManager.saveTransaction(transaction);
+        transactions.add(transaction);
         printInterfacePrompt("Payment saved. 🪙");
     }
 
@@ -222,9 +224,6 @@ public class FlowStateFinanceApp {
             printInterfacePrompt("Choose an option: ");
 
             String choice = scanner.nextLine();
-
-            ArrayList<Transaction> transactions =
-                    new ArrayList<>(TransactionFileManager.loadTransactions());
 
             LocalDate today = LocalDate.now();
 
